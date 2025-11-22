@@ -25,9 +25,11 @@ const fadeScale = {
 
 // ---------------------------------------------
 export default function App() {
-  const base = "/images";
 
-  // Imágenes originales + sus versiones "-2" y "-3"
+  // RUTA BASE CORRECTA PARA GITHUB PAGES
+  const base = "/Invitaci-n-cumple-Juliana/images";
+
+  // Imágenes
   const portadaImg = `${base}/portada.png`;
   const portada2Img = `${base}/portada-2.png`;
   const portada3Img = `${base}/portada-3.png`;
@@ -43,7 +45,7 @@ export default function App() {
   const footerImg = `${base}/footer.png`;
   const footer2Img = `${base}/footer-2.png`;
 
-  // Imagenes del botón sonido
+  // Botón sonido
   const sonidoOn = `${base}/sonido-on.png`;
   const sonidoOff = `${base}/sonido-off.png`;
 
@@ -57,13 +59,11 @@ export default function App() {
   const audioRef = useRef(null);
   const [soundOn, setSoundOn] = useState(false);
 
-  // Cargar audio una sola vez
   useEffect(() => {
-    const audio = new Audio("/musica.mp3");
+    const audio = new Audio("/Invitaci-n-cumple-Juliana/musica.mp3");
     audio.loop = true;
     audioRef.current = audio;
 
-    // Intentar reproducir
     audio.play().catch(() => {
       console.log("Autoplay bloqueado hasta interacción");
     });
@@ -73,16 +73,13 @@ export default function App() {
     };
   }, []);
 
-  // Encender / apagar sonido sin romper reproducción
   useEffect(() => {
     if (!audioRef.current) return;
 
-    if (soundOn) {
-      audioRef.current.play().catch(() => {});
-    } else {
-      audioRef.current.pause();
-    }
+    if (soundOn) audioRef.current.play().catch(() => {});
+    else audioRef.current.pause();
   }, [soundOn]);
+
 
   // ---------------- CONTADOR ----------------
   const [timeLeft, setTimeLeft] = useState({
@@ -92,7 +89,6 @@ export default function App() {
     seconds: "--",
   });
 
-  // -------- MOSTRAR IMÁGENES SECUNDARIAS 2s DESPUÉS --------
   const [showPortada2, setShowPortada2] = useState(false);
   const [showPortada3, setShowPortada3] = useState(false);
   const [showFecha2, setShowFecha2] = useState(false);
@@ -102,26 +98,15 @@ export default function App() {
   const [showFooter2, setShowFooter2] = useState(false);
 
   useEffect(() => {
-    const tPortada2 = setTimeout(() => setShowPortada2(true), 2000);
-    const tPortada3 = setTimeout(() => setShowPortada3(true), 2000);
-    const tFecha2 = setTimeout(() => setShowFecha2(true), 2000);
-    const tPerfil2 = setTimeout(() => setShowPerfil2(true), 2000);
-    const tInfo2 = setTimeout(() => setShowInfo2(true), 2000);
-    const tConfirmar2 = setTimeout(() => setShowConfirmar2(true), 2000);
-    const tFooter2 = setTimeout(() => setShowFooter2(true), 2000);
-
-    return () => {
-      clearTimeout(tPortada2);
-      clearTimeout(tPortada3);
-      clearTimeout(tFecha2);
-      clearTimeout(tPerfil2);
-      clearTimeout(tInfo2);
-      clearTimeout(tConfirmar2);
-      clearTimeout(tFooter2);
-    };
+    setTimeout(() => setShowPortada2(true), 2000);
+    setTimeout(() => setShowPortada3(true), 2000);
+    setTimeout(() => setShowFecha2(true), 2000);
+    setTimeout(() => setShowPerfil2(true), 2000);
+    setTimeout(() => setShowInfo2(true), 2000);
+    setTimeout(() => setShowConfirmar2(true), 2000);
+    setTimeout(() => setShowFooter2(true), 2000);
   }, []);
 
-  // -------- CONTADOR --------
   useEffect(() => {
     const target = new Date(eventoISO).getTime();
 
@@ -177,17 +162,21 @@ export default function App() {
   // ---------------- RENDER ----------------
   return (
     <div style={styles.page}>
+
       {/* Fondo inferior */}
       <div style={styles.bgFull} />
 
       {/* Fondo superior */}
       <div style={styles.bgTop}>
-        <img src="/images/fondo-superior.png" style={styles.bgTopImg} alt="" />
+        <img
+          src={`${base}/fondo-superior.png`}
+          style={styles.bgTopImg}
+          alt=""
+        />
       </div>
 
       {/* Portada */}
       <div style={{ ...styles.wrap, position: "relative" }}>
-        {/* BOTÓN DE SONIDO SOBRE LA PORTADA */}
         <button
           onClick={() => setSoundOn(!soundOn)}
           style={styles.soundButton}
@@ -198,7 +187,6 @@ export default function App() {
             alt="sound"
           />
         </button>
-
 
         <motion.img {...fadeSlide} src={portadaImg} style={styles.full} />
 
@@ -388,7 +376,7 @@ const styles = {
   bgFull: {
     position: "fixed",
     inset: 0,
-    backgroundImage: 'url("/images/fondo-base.png")',
+    backgroundImage: `url("${base}/fondo-base.png")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
