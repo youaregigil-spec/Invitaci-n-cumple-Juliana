@@ -1,0 +1,15 @@
+/* === Registrar la fuente === */
+@font-face {
+  font-family: "HelloHeadline";
+  src: url("/fonts/Hello_Headline_W00_Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* === Forzar que toda la app use esa fuente === */
+html, body, * {
+  font-family: "HelloHeadline", sans-serif !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
